@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sample-rs
+  labels:
+      app: myapp
+spec:
+  replicas: 1
+  selector: 
+    matchLabels:
+      app: myapp
+  template:
+    metadata:
+      name: nginx-pod
+      labels:
+        app: myapp
+    spec:
+      containers:
+      - name: nginx-container
+        image: nginx:latest
+        volumeMounts: 
+          - mountPath: /data/server
+            name: nginx-volume
+      volumes: 
+        - name: nginx-volume
+          persistentVolumeClaim:
+            claimName: nginx-server
